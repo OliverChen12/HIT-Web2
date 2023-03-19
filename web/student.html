@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student</title>
+    <script src="js/jquery-3.6.3.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "student-servlet",
+                type: "post",
+                data: {
+                    action: 'getStudent'
+                },
+                dataType: "json",
+                success: function (data) {
+                    let tableStr = "<table class='tab-list'>";
+                    tableStr = tableStr + "<tr class='list-header'>" +"<td width='5%'>序号</td>" + "<td>学号</td>"+ "<td>姓名</td>"+ "<td>性别</td>"+ "<td>年龄</td>"+ "<td>生日</td>"+ "<td>专业号</td>"+ "<td>专业名称</td>"+"</tr>";
+                    for(let i=data.length-1;i>=0;i--) {
+                        tableStr = tableStr + "<tr>" +"<td>"+ (data.length - i) + "</td>" +"<td>"+ data[i].sid + "</td>"+"<td>"+ data[i].sname + "</td>"+"<td>"+ data[i].gender + "</td>"+"<td>"+ data[i].age+ "</td>"+"<td>"+ data[i].birthday + "</td>"+"<td>"+ data[i].mid + "</td>"+"<td>"+ data[i].mname + "</td>"+"</tr>";
+                    }
+                    tableStr = tableStr + "</table>";
+                    $("#demo").html(tableStr);
+                },
+                error: function (XMLHttpRequest, textStatus) {
+                    console.log(XMLHttpRequest.status);
+                    console.log(XMLHttpRequest.readyState);
+                    console.log(textStatus);
+                    $("#demo").html("Error!");
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+<div id="demo"></div>
+<form action="student-servlet" method="post" id="form">
+    学号:<input type="text" name="sid" id="sid" />
+    <br>
+    姓名:<input type="text" name="sname" id="sname" />
+    <br>
+    年龄:<input type="number" name="age" id="age" />
+    <br>
+    性别:<input type="radio" name="gender" value="男" checked="true">男
+    <input type="radio" name="gender" value="女">女
+    <br>
+    生日:<input type="date" name="birthday" id="birthday"/>
+    <br>
+    专业编号:<input type="text" name="mid" id="mid" />
+    <br>
+    专业名称:<select name="mname" id="mname">
+        <option value="">
+            -请选择专业-
+        </option>
+        <option value="计算机科学与技术">
+            计算机科学与技术
+        </option>
+        <option value="软件工程">
+            软件工程
+        </option>
+        <option value="人工智能">
+            人工智能
+        </option>
+    </select>
+    <br>
+    <input type="submit" value="提交">
+    </form>
+</body>
+
+</html>
